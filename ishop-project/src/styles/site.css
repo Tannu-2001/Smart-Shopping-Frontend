@@ -1,0 +1,130 @@
+body {
+  background-image: url('/public/hopping.jpg');  
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-color: #f4f5f6; 
+}
+
+/* Navbar / footer small rules kept */
+.navbar-brand i { font-size: 1.2rem; margin-right: 6px; }
+footer .footer-link:hover { text-decoration: underline; color: #ffc107 !important; }
+.min-vh-60 { min-height: 60vh; }
+.card .card-header p { margin: 0; font-weight: 600; font-size: 0.95rem; }
+
+/* -------------------- Rating stars (keep as before) -------------------- */
+.stars {
+  --rating: 4;                 /* default, overridden inline */
+  --percent: calc(var(--rating) / 5 * 100%);
+  display: inline-block;
+  font-size: 1.1rem;
+  line-height: 1;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  position: relative;
+  color: #4009f3;
+  user-select: none;
+}
+.stars::before { content: "★★★★★"; letter-spacing: 3px; display: block; }
+.stars::after {
+  content: "★★★★★";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--percent);
+  overflow: hidden;
+  color: #f5b301;
+  white-space: nowrap;
+}
+.rating-value {
+  margin-left: 8px;
+  color: #333;
+  font-size: .95rem;
+  vertical-align: middle;
+}
+
+/* -------------------- Product grid & cards (NEW) -------------------- */
+#productCatalog {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: flex-start;
+  padding: 16px;
+}
+
+/* Use your existing card class .product-card (or .card.product-card) */
+.product-card {
+  width: 220px;                       /* card width */
+  background: rgba(233, 227, 227, 0.98); /* slightly opaque white */
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(30,30,30,0.08);
+  overflow: hidden;
+  transition: transform .18s ease, box-shadow .18s ease;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+/* hover */
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 32px rgba(30,30,30,0.12);
+}
+
+/* image area — important: object-fit cover */
+.product-card img.card-img-top {
+  height: 200px;            /* consistent height */
+  width: 100%;
+  object-fit: cover;        /* keep aspect, crop if needed */
+  display: block;
+  background: #f6f6f6;
+}
+
+/* body content inside card */
+.product-card .card-body {
+  padding: 10px 12px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* title and price */
+.product-card .card-title {
+  font-size: 14px;
+  line-height: 1.2;
+  color: #111;
+  margin: 0 0 6px 0;
+  min-height: 34px;        /* consistent titles */
+}
+.product-card .card-text {
+  font-size: 13px;
+  color: #090909;
+  margin-top: auto;
+  text-align: right;
+  font-weight: 600;
+}
+
+/* responsive */
+@media (max-width: 900px) {
+  .product-card { width: 32%; }
+}
+@media (max-width: 640px) {
+  .product-card { width: 48%; }
+}
+@media (max-width: 420px) {
+  .product-card { width: 100%; }
+}
+
+/* small tweak if product image not available: show centered placeholder */
+.product-card .img-placeholder {
+  height: 150px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f6f6f6;
+  color:#999;
+  font-size:0.95rem;
+}
+
