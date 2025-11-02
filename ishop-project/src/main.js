@@ -9,6 +9,25 @@ $(function () {
     return $.cookie('userid') || null;
   }
 
+  function fixImageUrl(raw) {
+    if (!raw) return '';
+    try {
+      // if it's already an absolute https URL:
+      if (/^https?:\/\//i.test(raw)) {
+        // if the host is 127.0.0.1 or localhost, convert to filename
+        if (/^(https?:\/\/)(127\.0\.0\.1|localhost)/i.test(raw)) {
+          return '/' + raw.split('/').pop();
+        }
+        return raw; // keep full absolute URL
+      }
+      // for local path like "/iphone.jpg" or "iphone.jpg" -> return "/iphone.jpg"
+      const fname = raw.split('/').pop();
+      return fname ? ('/' + fname) : '';
+    } catch (e) {
+      return '';
+    }
+  }
+
   async function sanitizeCart() {
   try {
     let cart = JSON.parse(localStorage.getItem('cart') || '[]');
@@ -506,7 +525,7 @@ sanitizeCart().then(() => {
         $("#productCatalog").empty();
         $.each(response, function (key, value) {
           const title = value.title || "No title";
-          const img = value.image || "";
+          const img = fixImageUrl(value.image || "");
           const price = value.price ? (`₹${value.price}`) : "";
           // always set idVal as string to avoid number/string mismatch
           const idVal = value.id !== undefined ? String(value.id) : (value._id ? String(value._id) : '');
@@ -589,7 +608,7 @@ sanitizeCart().then(() => {
           <div class="container my-4">
             <div class="row">
               <div class="col-md-5">
-                <img src="${image}" alt="${title}" class="img-fluid rounded" style="max-height:500px; width:100%; object-fit:cover;">
+                <img src="${fixImageUrl(image)}" alt="${title}" class="img-fluid rounded" style="max-height:500px; width:100%; object-fit:cover;">
               </div>
               <div class="col-md-7">
                 <h2>${title}</h2>
