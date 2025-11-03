@@ -12,18 +12,20 @@ $(function () {
   function fixImageUrl(raw) {
     if (!raw) return '';
     try {
-      // if it's already an absolute https URL:
+      // if it's already an absolute http(s) URL:
       if (/^https?:\/\//i.test(raw)) {
-        // if the host is 127.0.0.1 or localhost, convert to filename
+        // convert localhost/127.0.0.1 URLs to filename so they resolve from public/
         if (/^(https?:\/\/)(127\.0\.0\.1|localhost)/i.test(raw)) {
           return '/' + raw.split('/').pop();
         }
-        return raw; // keep full absolute URL
+        // remote absolute URL -> leave as is
+        return raw;
       }
-      // for local path like "/iphone.jpg" or "iphone.jpg" -> return "/iphone.jpg"
-      const fname = raw.split('/').pop();
+      // relative or just filename -> normalize to /filename
+      const fname = raw.split(/[\\/]/).pop();
       return fname ? ('/' + fname) : '';
     } catch (e) {
+      console.warn("fixImageUrl error:", e);
       return '';
     }
   }
